@@ -1,8 +1,5 @@
-def main():
-    """asdasdasd"""
-    print("asd")
+from flask import Flask
 
+app = Flask(__name__)
 
-main()
-
-print("asd")
+print(app)
