@@ -17,6 +17,14 @@ async def main():
     )
 
 
+# 02-1-sync.py 와 동일하게 동작
+
+# async def main():
+#     await delivery("A", 5)
+#     await delivery("B", 3)
+#     await delivery("C", 4)
+
+
 if __name__ == "__main__":
     start = time.time()
     asyncio.run(main())
