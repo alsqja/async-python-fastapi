@@ -4,7 +4,7 @@ import asyncio
 
 
 async def fetcher(session, url):
-    async with session.get(url) as response:
+    async with session.get(url, ssl=False) as response:
         return await response.text()
 
 
@@ -24,7 +24,8 @@ async def main():
     async with aiohttp.ClientSession() as session:
         # result = [fetcher(session, url) for url in urls]
         # print(result)
-        result = await fetcher(session, urls[0])
+        result = await asyncio.gather(*[fetcher(session, url) for url in urls])
+        # result = await fetcher(session, urls[0])
         print(result)
 
 
