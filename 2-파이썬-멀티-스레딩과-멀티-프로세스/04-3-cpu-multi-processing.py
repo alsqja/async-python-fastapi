@@ -1,7 +1,7 @@
 import time
 import os
 import threading
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 
 nums = [30] * 100
 
@@ -19,7 +19,7 @@ def cpu_bound_func(num):
 
 
 def main():
-    executor = ThreadPoolExecutor(max_workers=10)
+    executor = ProcessPoolExecutor(max_workers=10)
     results = list(executor.map(cpu_bound_func, nums))
     print(results)
 
@@ -28,5 +28,4 @@ if __name__ == "__main__":
     start = time.time()
     main()
     end = time.time()
-    print(end - start)  # 28.718920946121216,  20.104805946350098
-    # 멀티 스레드를 사용해도 시간 비슷 => 멀티 프로세싱
+    print(end - start)  # 26.00241208076477,  12.954219102859497

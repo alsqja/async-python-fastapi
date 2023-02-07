@@ -2,7 +2,7 @@ import time
 import os
 import threading
 
-nums = [50, 63, 32]
+nums = [30] * 100
 
 
 def cpu_bound_func(num):
@@ -26,4 +26,4 @@ if __name__ == "__main__":
     start = time.time()
     main()
     end = time.time()
-    print(end - start)  # 28.72213578224182
+    print(end - start)  # 28.72213578224182,  19.929688930511475
