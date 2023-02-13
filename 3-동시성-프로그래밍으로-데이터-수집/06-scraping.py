@@ -1,17 +1,28 @@
-# https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-# pip install beautifulsoup4
-
-"""
-  웹 크롤링 : 검색 엔진의 구축 등을 위하여 특정한 벙법으로 웹 페이지를 수집하는 프로그램
-  웹 스크래핑 : 웹에서 데이터를 수집하는 프로그램
-"""
-
 import aiohttp
 import asyncio
 from dotenv import load_dotenv
 import os
+import aiofiles
+
+# pip install aiofiles==0.7.0
 
 load_dotenv()
+
+
+async def img_downloader(session, img):
+    img_name = img.split("/")[-1].split("?")[0]
+
+    try:
+        os.mkdir("./images")
+    except FileExistsError:
+        pass
+
+    async with session.get(img, ssl=False) as response:
+        if response.status == 200:
+            async with aiofiles.open(
+                f"./images/{img_name}", mode="wb"
+            ) as file:  # noqa: E501
+                await file.write(await response.read())
 
 
 async def fetch(session, url):
@@ -23,7 +34,8 @@ async def fetch(session, url):
         result = await response.json()
         items = result["items"]
         images = [item["link"] for item in items]
-        print(images)
+
+        await asyncio.gather(*[img_downloader(session, img) for img in images])
 
 
 async def main():
@@ -39,3 +51,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+    print("end")
